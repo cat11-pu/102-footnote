@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><title>footnote</title>
+<style>body{font-family:system-ui,sans-serif;margin:24px;max-width:960px}
+textarea{width:100%;height:150px;font-family:ui-monospace,monospace}
+button{padding:6px 12px;margin:8px 8px 8px 0}pre{background:#f6f6f6;padding:10px;border-radius:6px;overflow:auto}
+.ok{color:#0a7}.bad{color:#c00}</style>
+</head>
+<body>
+<h1>footnote 工作台</h1>
+<p>改样例里的段落文本、脚注表与编辑事件再点运行，结果给标记编号、文末脚注顺序、未引用脚注与陈旧计数。</p>
+<textarea id="input">{
+  "unknown_note_code": "E_UNKNOWN_NOTE",
+  "budget": 1,
+  "applied": ["e1"],
+  "paragraphs": [
+    {"id": "p1", "text": "alpha [note:a] beta [note:b]"},
+    {"id": "p2", "text": "gamma [note:a] delta"},
+    {"id": "p3", "text": "epsilon [note:c] zeta"}
+  ],
+  "notes": [
+    {"id": "a", "text": "first note"},
+    {"id": "b", "text": "second note"},
+    {"id": "c", "text": "third note"},
+    {"id": "d", "text": "fourth note"}
+  ],
+  "events": [
+    {"event_id": "e1", "op": "replace", "paragraph": "p3", "text": "epsilon [note:c] zeta"},
+    {"event_id": "e2", "op": "replace", "paragraph": "p1", "text": "alpha beta [note:c]"},
+    {"event_id": "e3", "op": "replace", "paragraph": "p1", "text": "alpha [note:b] beta [note:c]"}
+  ]
+}</textarea>
+<div><button id="run">运行</button><span id="status" class="ok">等待</span></div>
+<pre id="out">还没跑</pre>
+<script type="module">
+import { render } from "./app.js";
+
+document.getElementById("run").addEventListener("click", function () {
+  const status = document.getElementById("status");
+  try {
+    const spec = JSON.parse(document.getElementById("input").value);
+    const result = render(spec);
+    status.className = "ok";
+    status.textContent = "完成";
+    document.getElementById("out").textContent = JSON.stringify(result, null, 1);
+  } catch (error) {
+    status.className = "bad";
+    status.textContent = "出错 " + error.message;
+    document.getElementById("out").textContent = String(error && error.stack ? error.stack : error);
+  }
+});
+</script>
+</body>
+</html>

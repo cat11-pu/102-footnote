@@ -1,0 +1,21 @@
+{
+  "unknown_note_code": "E_UNKNOWN_NOTE",
+  "budget": 1,
+  "applied": ["e1"],
+  "paragraphs": [
+    {"id": "p1", "text": "alpha [note:a] beta [note:b]"},
+    {"id": "p2", "text": "gamma [note:a] delta"},
+    {"id": "p3", "text": "epsilon [note:c] zeta"}
+  ],
+  "notes": [
+    {"id": "a", "text": "first note"},
+    {"id": "b", "text": "second note"},
+    {"id": "c", "text": "third note"},
+    {"id": "d", "text": "fourth note"}
+  ],
+  "events": [
+    {"event_id": "e1", "op": "replace", "paragraph": "p3", "text": "epsilon [note:c] zeta"},
+    {"event_id": "e2", "op": "replace", "paragraph": "p1", "text": "alpha beta [note:c]"},
+    {"event_id": "e3", "op": "replace", "paragraph": "p1", "text": "alpha [note:b] beta [note:c]"}
+  ]
+}
